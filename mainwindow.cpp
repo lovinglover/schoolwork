@@ -113,6 +113,7 @@ vector<float> MainWindow::get_data()
         string name = time.toString("mmss").toStdString();
         vector<string> D = open_file(name);
         // modify
+        // 异常处理，有些数据无法转化为float，设为0
         try {
             data.push_back(stof(D[M[select]]));
         } catch (exception) {
@@ -141,7 +142,7 @@ void MainWindow::show_pics()
         time = time.addSecs(60);
         index++;
     }
-
+    // 一个坑，如果先添加series，在向series中添加数据，图像无法显示
     chart->addSeries(series);
     QValueAxis *axisX = new QValueAxis;
     axisX->setRange(stoi(ui->dateTimeEdit->dateTime().toString("mm").toStdString()), stoi(ui->dateTimeEdit_2->dateTime().toString("mm").toStdString()));
